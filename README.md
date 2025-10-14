@@ -12,7 +12,7 @@ All materials provided is developed by Oda Obando as part of SET0903 course lear
 
 ![workflow](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/actions/workflows/main.yml/badge.svg)
 
-master Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/devops/main.yml)
+Master Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/devops/main.yml)
 
 Develop Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/devops/main.yml)
 
