@@ -1,0 +1,42 @@
+Scrum Team 11 Code of Conduct
+
+ Our Purpose
+We, the Scrum Team 11, are committed to delivering high-quality, valuable software to our users. This Code of Conduct outlines our shared commitment to working together with respect, professionalism, and a focus on continuous improvement, in line with Scrum values and DevOps principles."
+
+Core Values & Principles
+Focus & Commitment: We are fully committed to the team's Sprint Goal. We support each other to ensure the goal is met.
+Courage: We have the courage to speak up about risks,blockers, and technical debt. We are not afraid to challenge how things are done.
+Openness: We’re honest about our work, progress, and struggles. We share freely and keep things transparent.
+Respect: We value each other’s time, skills, and viewpoints. We listen first, then respond.
+Focus on Flow: We care about smooth delivery from dev to production. We all own the pipeline and keep things moving.
+
+Communication & Collaboration
+Meetings: We start on time and end on time. We come prepared to Scrum events (Daily Scrum, Planning, Retro and Review). We are present and engaged.
+Feedback: We give constructive, kind, and actionable feedback. We receive feedback with a growth mindset, seeing it as a chance to get better
+NO Blame Game: If something breaks, we ask, “What can we learn?”—not “Who messed up?”
+Cross-Functionality: We help each other out, no matter our role. Dev, QA, Ops—we’re one team.
+Asynchronous Communication: We document decisions clearly in our designated tools. We respect focus time and avoid unnecessary interruptions.
+
+
+Technical Excellence & DevOps Practices
+Collective Code Ownership: The code belongs to all of us. We review each other’s work and give helpful, timely feedback.
+Code Reviews: We submit small, reviewable pull requests. We review others' code promptly and with respect. Comments should be constructive and reference the code, not the coder.
+Definition of Done (DoD): We stick to it—no shortcuts.
+Automation & CI/CD:  We automate what we can and keep our pipelines healthy. Broken builds get fixed fast.
+Monitoring & Operations: We build it, we run it. We are responsive to alerts and participate in on-call rotations responsibly.
+
+Conflict Resolution
+Direct Dialogue: If a conflict arises, we first seek to resolve it directly and privately with the individuals involved.
+Facilitation: If direct resolution fails, we will involve the Scrum Master to facilitate a conversation.
+Escalation: As a last resort, unresolved issues will be escalated to the team's manager or HR, as per company policy.
+
+Living the Code
+Accountability: We hold ourselves and each other accountable to these agreements.
+Review & Evolution: We will revisit this Code of Conduct during a Retrospective at least once every quarter to ensure it remains relevant and effective.
+Onboarding: This document will be a key part of our onboarding process for new team members.
+
+Implementation and Enforcement
+
+Scrum Master's Role: The Scrum Master is the primary facilitator and custodian of the CoC. They remind the team of its existence, help mediate conflicts, and ensure it's a living document.
+Team's Role: The entire team is responsible for upholding the CoC. This means having the courage to gently remind a colleague of the agreement if they see a breach.
+Leads by Example: The Product Owner, Tech Lead, and Senior members must model the behaviors outlined in the CoC.
