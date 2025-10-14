@@ -12,10 +12,10 @@ All materials provided is developed by Oda Obando as part of SET0903 course lear
 
 ![workflow](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/actions/workflows/main.yml/badge.svg)
 
-Master Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/devops/main.yml)
+Master Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/SET09803-Scrum-Team-11/main.yml)
 
-Develop Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/devops/main.yml)
+Develop Build Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Tarzo-Vain/SET09803-Scrum-Team-11/main.yml)
 
-License [![LICENSE](https://img.shields.io/github/license/Tarzo-Vain/devops.svg?style=flat-square)](https://github.com/Tarzo-Vain/devops/blob/master/LICENSE)
+License [![LICENSE](https://img.shields.io/github/license/Tarzo-Vain/SET09803-Scrum-Team-11.svg?style=flat-square)](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/blob/master/LICENSE)
 
-Release [![Releases](https://img.shields.io/github/release/Tarzo-Vain/devops/all.svg?style=flat-square)](https://github.com/Tarzo-Vain/devops/releases)
+Release [![Releases](https://img.shields.io/github/release/Tarzo-Vain/SET09803-Scrum-Team-11/all.svg?style=flat-square)](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/releases)
