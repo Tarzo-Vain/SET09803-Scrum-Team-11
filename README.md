@@ -6,7 +6,7 @@ control for this course from Intelli J app on scrum team desktop.
 
 
 ##Copyright Notice
-All materials provided is developed by Oda Obando as part of SET0903 course learning. Use and copying of this material is permitted under the Apache 2.0 license with suitable attribution given to the author. The author accepts no liability in the use of this material.
+All materials provided is developed by scrum Group 11(Ali Alghamdi, Odavano Obando, Seanico Pilgrim, Marco Riveroll, Garvin Samuel, Vikramaditya Singh) as part of SET09803 course assessment. Use and copying of this material is permitted under the Apache 2.0 license with suitable attribution given to the author. The author accepts no liability in the use of this material.
 
 
 
