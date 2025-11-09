@@ -60,7 +60,7 @@ The use cases correspond to the diagrams stored in the `/diagrams` folder.
 
 
 ## Generate City Report
-**Goal:** List all cities with `Name, Country, District, Population` sorted by population (DESC).  
+**Goal:** List all cities with `Name, Country, District, Population` sorted by population.  
 **Scope:** World / Continent / Region / Country / District  
 **Includes:** Filter by Scope, Retrieve Data, Export  
 **Extends:** Top N  
