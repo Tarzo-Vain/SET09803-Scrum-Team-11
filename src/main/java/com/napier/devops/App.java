@@ -1,30 +1,53 @@
 package com.napier.devops;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
+import com.napier.devops.report.ReportService;
+import com.napier.devops.dao.CountryDAO;
 
-public class App
-{
-    public static void main(String[] args)
-    {
-        // Connect to MongoDB
-        MongoClient mongoClient = new MongoClient("mongo-dbserver");
-        // Get a database - will create when we use it
-        MongoDatabase database = mongoClient.getDatabase("mydb");
-        // Get a collection from the database
-        MongoCollection<Document> collection = database.getCollection("test");
-        // Create a document to store
-        Document doc = new Document("name", "Kevin Sim")
-                .append("class", "DevOps")
-                .append("year", "2024")
-                .append("result", new Document("CW", 95).append("EX", 85));
-        // Add document to collection
-        collection.insertOne(doc);
 
-        // Check document in collection
-        Document myDoc = collection.find().first();
-        System.out.println(myDoc.toJson());
+import java.sql.*;
+public class App {
+
+    Connection con;
+
+    public static void main(String[] args) {
+        App app = new App();
+        app.connect();
+
+        try {
+            // DAO
+            CountryDAO countryDAO = new CountryDAO(app.con);
+
+            // Service
+            ReportService reportService = new ReportService(countryDAO);
+
+            // UI
+            ConsoleUI ui = new ConsoleUI(reportService);
+            ui.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            app.disconnect();
+        }
+    }
+
+    public void connect() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:33060/world?useSSL=false&allowPublicKeyRetrieval=true",
+                    "root",
+                    "example"
+            );
+            System.out.println("Connected.");
+        } catch (Exception e) {
+            System.out.println("Database connection failed: " + e.getMessage());
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (con != null) con.close();
+        } catch (Exception ignored) {}
     }
 }
