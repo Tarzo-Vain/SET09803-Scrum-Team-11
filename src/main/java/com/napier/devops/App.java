@@ -2,9 +2,9 @@ package com.napier.devops;
 
 import com.napier.devops.report.ReportService;
 import com.napier.devops.dao.CountryDAO;
-
-
+import com.napier.devops.dao.CityDAO;
 import java.sql.*;
+
 public class App {
 
     Connection con;
@@ -17,8 +17,11 @@ public class App {
             // DAO
             CountryDAO countryDAO = new CountryDAO(app.con);
 
+            // DAO
+            CityDAO cityDAO = new CityDAO(app.con);
+
             // Service
-            ReportService reportService = new ReportService(countryDAO);
+            ReportService reportService = new ReportService(countryDAO, cityDAO);
 
             // UI
             ConsoleUI ui = new ConsoleUI(reportService);
