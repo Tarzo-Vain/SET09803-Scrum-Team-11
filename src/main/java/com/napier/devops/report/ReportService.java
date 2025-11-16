@@ -1,6 +1,5 @@
 package com.napier.devops.report;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import com.napier.devops.dao.CountryDAO;
 import com.napier.devops.dao.CityDAO;
 import com.napier.devops.model.City;
@@ -11,9 +10,11 @@ import java.util.List;
 
 public class ReportService {
 
-    private final CountryDAO countryDAO; CityDAO cityDAO;
+    private final CountryDAO countryDAO;
+    CityDAO cityDAO;
 
-        public ReportService(CountryDAO countryDAO, CityDAO cityDAO) {
+
+    public ReportService(CountryDAO countryDAO, CityDAO cityDAO) {
 
         this.countryDAO = countryDAO;
         this.cityDAO = cityDAO;
@@ -82,6 +83,4 @@ public class ReportService {
     public List<City> getAllTopNCitiesByDistrict(String district) throws SQLException {
         return cityDAO.getAllTopNCitiesByDistrict(district);
     }
-
-
 }

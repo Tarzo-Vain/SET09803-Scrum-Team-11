@@ -38,7 +38,13 @@ public class ConsoleUI {
             System.out.println("14. The top N populated cities in a region.");
             System.out.println("15. The top N populated cities in a country.");
             System.out.println("16. The top N populated cities in a district.");
-            System.out.println("0. Exit");
+            System.out.println("17. All capitals in the world");
+            System.out.println("18. All capitals in a continent");
+            System.out.println("19. All capitals in a region");
+            System.out.println("20. The top N populated capitals in the world.");
+            System.out.println("21. The top N populated capitals in a continent.");
+            System.out.println("22. The top N populated capitals in a region.");
+            System.out.println("23. Exit");
             System.out.print("Enter option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -124,6 +130,31 @@ public class ConsoleUI {
                         String district = scanner.nextLine();
                         printCities(reportService.getAllTopNCitiesByDistrict(district));
                     }
+
+                    case 17 -> printCapitals(reportService.getAllCountries());
+                    case 18 -> {
+                        System.out.print("Enter continent: ");
+                        String continent = scanner.nextLine();
+                        printCapitals(reportService.getCountriesByContinent(continent));
+                    }
+                    case 19 -> {
+                        System.out.print("Enter region: ");
+                        String region = scanner.nextLine();
+                        printCapitals(reportService.getCountriesByRegion(region));
+                    }
+                    case 20 ->{
+                        printCapitals(reportService.getAllTopNCountriesByPopulation());
+                    }
+                    case 21 -> {
+                        System.out.print("Enter continent: ");
+                        String continent = scanner.nextLine();
+                        printCapitals(reportService.getAllTopNCountriesByContinent(continent));
+                    }
+                    case 22 -> {
+                        System.out.print("Enter region: ");
+                        String region = scanner.nextLine();
+                        printCapitals(reportService.getAllTopNCountriesByRegion(region));
+                    }
                     case 0 -> running = false;
                     default -> System.out.println("Invalid choice.");
                 }
@@ -170,6 +201,24 @@ public class ConsoleUI {
                     ct.getCountry(),
                     ct.getDistrict(),
                     ct.getPopulation());
+
+        }
+    }
+    private void printCapitals(List<Country> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("No results.");
+            return;
+        }
+
+        System.out.printf("%-35s  %-15s %-30s %-15s%n",
+                "Capital", "Continent", "Region", "Population");
+
+        for (Country ca : list) {
+            System.out.printf("%-35s %-15s %-30s %-15s%n",
+                    ca.getCapital(),
+                    ca.getContinent(),
+                    ca.getRegion(),
+                    ca.getPopulation());
 
         }
     }
