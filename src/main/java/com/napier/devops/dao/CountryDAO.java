@@ -9,13 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryDAO {
-
-    private final Connection con;
-
-    public CountryDAO(Connection con) {
-        this.con = con;
-    }
+public record CountryDAO(Connection con) {
 
     private Country mapCountry(ResultSet rs) throws SQLException {
         Country c = new Country();
