@@ -62,9 +62,9 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCountries(reportService.getCountriesByRegion(region));
                     }
-                    case 4 ->{
+                    case 4 ->
                         printCountries(reportService.getAllTopNCountriesByPopulation());
-                    }
+
                     case 5 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
@@ -76,9 +76,9 @@ public class ConsoleUI {
                         printCountries(reportService.getAllTopNCountriesByRegion(region));
                     }
 
-                    case 7 ->{
+                    case 7 ->
                         printCities(reportService.getAllCitiesByPopulation());
-                    }
+
 
                     case 8 -> {
                         System.out.print("Enter continent: ");
@@ -104,9 +104,9 @@ public class ConsoleUI {
                         printCities(reportService.getAllCitiesByDistrict(district));
                     }
 
-                    case 12 -> {
+                    case 12 ->
                         printCities(reportService.getAllTopNCitiesByPopulation());
-                    }
+
                     case 13 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
@@ -142,9 +142,9 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCapitals(reportService.getCountriesByRegion(region));
                     }
-                    case 20 ->{
+                    case 20 ->
                         printCapitals(reportService.getAllTopNCountriesByPopulation());
-                    }
+
                     case 21 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
