@@ -56,8 +56,23 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCountries(reportService.getCountriesByRegion(region));
                     }
+                    case 4 ->{
+                        printCountries(reportService.getAllTopNCountriesByPopulation());
+                    }
+                    case 5 -> {
+                        System.out.print("Enter continent: ");
+                        String continent = scanner.nextLine();
+                        printCountries(reportService.getAllTopNCountriesByContinent(continent));
+                    }
+                    case 6 -> {
+                        System.out.print("Enter region: ");
+                        String region = scanner.nextLine();
+                        printCountries(reportService.getAllTopNCountriesByRegion(region));
+                    }
 
-                    case 7 -> printCities(reportService.getAllCitiesByPopulation());
+                    case 7 ->{
+                        printCities(reportService.getAllCitiesByPopulation());
+                    }
 
                     case 8 -> {
                         System.out.print("Enter continent: ");
@@ -84,36 +99,30 @@ public class ConsoleUI {
                     }
 
                     case 12 -> {
-                        System.out.print("Enter the top N: ");
-                        String number = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByPopulation());
+                        printCities(reportService.getAllTopNCitiesByPopulation());
                     }
                     case 13 -> {
                         System.out.print("Enter continent: ");
-                        System.out.print("Enter the top N: ");
                         String continent = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByContinent(continent));
+                        printCities(reportService.getAllTopNCitiesByContinent(continent));
                     }
 
                     case 14 -> {
                         System.out.print("Enter region: ");
-                        System.out.print("Enter the top N: ");
                         String region = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByRegion(region));
+                        printCities(reportService.getAllTopNCitiesByRegion(region));
                     }
 
                     case 15 -> {
                         System.out.print("Enter country: ");
-                        System.out.print("Enter the top N: ");
                         String country = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByCountry(country));
+                        printCities(reportService.getAllTopNCitiesByCountry(country));
                     }
 
                     case 16 -> {
                         System.out.print("Enter district: ");
-                        System.out.print("Enter the top N: ");
                         String district = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByDistrict(district));
+                        printCities(reportService.getAllTopNCitiesByDistrict(district));
                     }
                     case 0 -> running = false;
                     default -> System.out.println("Invalid choice.");

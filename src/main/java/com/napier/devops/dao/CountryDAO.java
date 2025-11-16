@@ -78,4 +78,60 @@ public record CountryDAO(Connection con) {
         }
         return list;
     }
+    // 4. All countries in the world
+    public List<Country> getAllTopNCountriesByPopulation() throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                ORDER BY co.Population DESC;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) list.add(mapCountry(rs));
+        }
+        return list;
+    }
+
+    // 5. Countries in a continent
+    public List<Country> getAllTopNCountriesByContinent(String continent) throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                WHERE co.Continent = ?
+                ORDER BY co.Population DESC;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, continent);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCountry(rs));
+            }
+        }
+        return list;
+    }
+
+    // 6. Countries in a region
+    public List<Country> getAllTopNCountriesByRegion(String region) throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                WHERE co.Region = ?
+                ORDER BY co.Population DESC;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, region);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCountry(rs));
+            }
+        }
+        return list;
+    }
 }
