@@ -1,8 +1,7 @@
 package com.napier.devops.dao;
 
 import com.napier.devops.model.City;
-
-
+import com.napier.devops.model.Country;
 
 
 import java.sql.Connection;
@@ -134,19 +133,29 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 12. All Cities in the world
-    public List<City> getAllTopNCitiesByPopulation() throws SQLException {
+    // 12. Top N Populated cities in the world
+    public List<City> getAllTopNCitiesByPopulation(int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC 
+                LIMIT ?;
                 """;
 
-        List<City> list = new ArrayList<>();
+      /*  List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) list.add(mapCity(rs));
+        }
+        */
+        List<City> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            // stmt.setString(1, region);
+            stmt.setInt(1, n);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCity(rs));
+            }
         }
         return list;
     }

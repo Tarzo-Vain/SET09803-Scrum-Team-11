@@ -107,11 +107,14 @@ public class ConsoleUI {
                         printCities(reportService.getAllCitiesByDistrict(district));
                     }
 
-                    case 12 ->
-                        printCities(reportService.getAllTopNCitiesByPopulation());
-                        //int n = readPositiveInt("Enter N (top N Cities in the world): ");
-                        // printCities(reportService.getAllCitiesByPopulation(n));
-                    //}
+                    case 12 ->{
+                        //printCities(reportService.getAllTopNCitiesByPopulation());
+                        int n = readPositiveInt("Enter N (top N Cities in the world): ");
+                         printCities(reportService.getAllTopNCitiesByPopulation(n));
+                    }
+                  //  int n = readPositiveInt("Enter N (top N countries in the world): ");
+                  //  printCountries(reportService.getTopCountriesInWorld(n));
+               // }
 
                     case 13 -> {
                         System.out.print("Enter continent: ");

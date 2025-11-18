@@ -82,8 +82,8 @@ public class ReportService {
         return cityDAO.getAllCitiesByDistrict(district);
     }
 
-    public List<City> getAllTopNCitiesByPopulation() throws SQLException {
-        return cityDAO.getAllTopNCitiesByPopulation();
+    public List<City> getAllTopNCitiesByPopulation(int n) throws SQLException {
+        return cityDAO.getAllTopNCitiesByPopulation(n);
     }
 
     public List<City> getAllTopNCitiesByContinent(String continent) throws SQLException {
