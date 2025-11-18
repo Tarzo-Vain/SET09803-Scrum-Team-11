@@ -135,6 +135,7 @@ public class ConsoleUI {
                     }
 
                     case 17 -> printCapitals(reportService.getAllCountries());
+
                     case 18 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
@@ -222,10 +223,16 @@ public class ConsoleUI {
             System.out.println("No results.");
             return;
         }
-
+/*
         System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
                 "ID", "City", "Continent", "Region", "Country","District", "Population");
 
+ */
+        System.out.printf("%-30s %-40s %-20s %-15s%n",
+                "City", "Country","District", "Population");
+
+
+/*
         for (City ct : list) {
             System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
                     ct.getId(),
@@ -237,6 +244,20 @@ public class ConsoleUI {
                     ct.getPopulation());
 
         }
+ */
+        for (City ct : list) {
+            System.out.printf("%-30s %-40s %-20s %-15s%n",
+
+                    ct.getName(),
+
+
+                    ct.getCountry(),
+                    ct.getDistrict(),
+                    ct.getPopulation());
+
+        }
+
+
     }
     private void printCapitals(List<Country> list) {
         if (list == null || list.isEmpty()) {
@@ -244,14 +265,15 @@ public class ConsoleUI {
             return;
         }
 
-        System.out.printf("%-35s  %-15s %-30s %-15s%n",
-                "Capital", "Continent", "Region", "Population");
+        System.out.printf("%-35s %-35s %-15s%n",
+                "Capital", "Country", "Population");
 
         for (Country ca : list) {
-            System.out.printf("%-35s %-15s %-30s %-15s%n",
+            System.out.printf("%-35s %-35s %-15s%n",
                     ca.getCapital(),
-                    ca.getContinent(),
-                    ca.getRegion(),
+                    ca.getName(),
+                  //  ca.getContinent(),
+                   // ca.getRegion(),
                     ca.getPopulation());
 
         }

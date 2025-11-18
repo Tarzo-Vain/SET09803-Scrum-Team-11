@@ -22,13 +22,13 @@ public record CountryDAO(Connection con) {
         return c;
     }
 
-    // 1. All countries in the world
+    // 1. All countries in the world and #17
     public List<Country> getAllCountriesByPopulation() throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
-                ORDER BY co.Population DESC;
+                ORDER BY co.Population DESC limit 10;
                 """;
 
         List<Country> list = new ArrayList<>();
@@ -39,14 +39,14 @@ public record CountryDAO(Connection con) {
         return list;
     }
 
-    // 2. Countries in a continent
+    // 2. Countries in a continent and #18
     public List<Country> getCountriesByContinent(String continent) throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
                 WHERE co.Continent = ?
-                ORDER BY co.Population DESC;
+                ORDER BY co.Population DESC limit 10;
                 """;
 
         List<Country> list = new ArrayList<>();

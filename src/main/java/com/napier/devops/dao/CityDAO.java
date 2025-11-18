@@ -16,10 +16,10 @@ public record CityDAO(Connection con) {
 
     private City mapCity(ResultSet rs) throws SQLException {
         City ct = new City();
-        ct.setId(rs.getInt("ID"));
+        //ct.setId(rs.getInt("ID"));
         ct.setName(rs.getString("Name"));
-        ct.setContinent(rs.getString("Continent"));
-        ct.setRegion(rs.getString("Region"));
+       // ct.setContinent(rs.getString("Continent"));
+       // ct.setRegion(rs.getString("Region"));
         ct.setCountry(rs.getString("Country"));
         ct.setDistrict(rs.getString("District"));
         ct.setPopulation(rs.getLong("Population"));
@@ -29,12 +29,22 @@ public record CityDAO(Connection con) {
 
     // 7. All Cities in the world
     public List<City> getAllCitiesByPopulation() throws SQLException {
+       /*
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 ORDER BY ci.Population DESC;
                 """;
+
+        */
+        String sql = """
+                SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent
+                FROM city ci
+                LEFT JOIN country co ON ci.CountryCode = co.Code
+                ORDER BY ci.Population DESC limit 10;
+                """;
+
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql);
@@ -51,7 +61,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Continent = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC limit 10;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -71,7 +81,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Region = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC limit 10;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -84,14 +94,14 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 10. Cities in a continent
+    // 10. Cities in a Country
     public List<City> getAllCitiesByCountry(String country) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Name = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC limit 10;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -104,14 +114,14 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 11. Cities in a continent
+    // 11. Cities in a District
     public List<City> getAllCitiesByDistrict(String district) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE ci.District = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC limit 10;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -130,7 +140,7 @@ public record CityDAO(Connection con) {
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC limit 10;
                 """;
 
         List<City> list = new ArrayList<>();
