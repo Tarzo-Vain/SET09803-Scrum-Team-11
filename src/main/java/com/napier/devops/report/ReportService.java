@@ -65,6 +65,7 @@ public class ReportService {
         return cityDAO.getAllCitiesByPopulation();
     }
 
+
     public List<City> getAllCitiesByContinent(String continent) throws SQLException {
         return cityDAO.getAllCitiesByContinent(continent);
     }

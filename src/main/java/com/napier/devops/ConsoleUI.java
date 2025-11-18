@@ -109,6 +109,9 @@ public class ConsoleUI {
 
                     case 12 ->
                         printCities(reportService.getAllTopNCitiesByPopulation());
+                        //int n = readPositiveInt("Enter N (top N Cities in the world): ");
+                        // printCities(reportService.getAllCitiesByPopulation(n));
+                    //}
 
                     case 13 -> {
                         System.out.print("Enter continent: ");
