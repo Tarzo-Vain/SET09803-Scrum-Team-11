@@ -62,18 +62,21 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCountries(reportService.getCountriesByRegion(region));
                     }
-                    case 4 ->
-                        printCountries(reportService.getAllTopNCountriesByPopulation());
+                    case 4 -> {
+                         int n = readPositiveInt("Enter N (top N countries in the world): ");
+                        printCountries(reportService.getTopCountriesInWorld(n));
+                     }
 
                     case 5 -> {
-                        System.out.print("Enter continent: ");
-                        String continent = scanner.nextLine();
-                        printCountries(reportService.getAllTopNCountriesByContinent(continent));
+                        String continent = readString("Enter continent: ");
+                        int n = readPositiveInt("Enter N (top N in this continent): ");
+                        printCountries(reportService.getTopCountriesInContinent(continent, n));
                     }
+
                     case 6 -> {
-                        System.out.print("Enter region: ");
-                        String region = scanner.nextLine();
-                        printCountries(reportService.getAllTopNCountriesByRegion(region));
+                       String region = readString("Enter region: ");
+                        int n = readPositiveInt("Enter N (top N in this region): ");
+                        printCountries(reportService.getTopCountriesInRegion(region, n));
                     }
 
                     case 7 ->
@@ -104,8 +107,14 @@ public class ConsoleUI {
                         printCities(reportService.getAllCitiesByDistrict(district));
                     }
 
-                    case 12 ->
-                        printCities(reportService.getAllTopNCitiesByPopulation());
+                    case 12 ->{
+                        //printCities(reportService.getAllTopNCitiesByPopulation());
+                        int n = readPositiveInt("Enter N (top N Cities in the world): ");
+                         printCities(reportService.getAllTopNCitiesByPopulation(n));
+                    }
+                  //  int n = readPositiveInt("Enter N (top N countries in the world): ");
+                  //  printCountries(reportService.getTopCountriesInWorld(n));
+               // }
 
                     case 13 -> {
                         System.out.print("Enter continent: ");
@@ -132,6 +141,7 @@ public class ConsoleUI {
                     }
 
                     case 17 -> printCapitals(reportService.getAllCountries());
+
                     case 18 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
@@ -142,6 +152,7 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCapitals(reportService.getCountriesByRegion(region));
                     }
+/* old code
                     case 20 ->
                         printCapitals(reportService.getAllTopNCountriesByPopulation());
 
@@ -155,6 +166,8 @@ public class ConsoleUI {
                         String region = scanner.nextLine();
                         printCapitals(reportService.getAllTopNCountriesByRegion(region));
                     }
+
+ */
                     case 0 -> running = false;
                     default -> System.out.println("Invalid choice.");
                 }
@@ -164,6 +177,34 @@ public class ConsoleUI {
         }
     }
 
+// ---------- Input helpers ----------
+
+    private int readInt() {
+        while (true) {
+            String input = scanner.nextLine();
+            try {
+                return Integer.parseInt(input.trim());
+            } catch (NumberFormatException e) {
+                System.out.print("Please enter a valid integer: ");
+            }
+        }
+    }
+
+    private int readPositiveInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            int n = readInt();
+            if (n > 0) return n;
+            System.out.println("N must be > 0.");
+        }
+    }
+
+    private String readString(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine().trim();
+    }
+
+//--------Output Helpers-----------
     private void printCountries(List<Country> list) {
         if (list == null || list.isEmpty()) {
             System.out.println("No results.");
@@ -188,10 +229,16 @@ public class ConsoleUI {
             System.out.println("No results.");
             return;
         }
-
+/*
         System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
                 "ID", "City", "Continent", "Region", "Country","District", "Population");
 
+ */
+        System.out.printf("%-30s %-40s %-20s %-15s%n",
+                "City", "Country","District", "Population");
+
+
+/*
         for (City ct : list) {
             System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
                     ct.getId(),
@@ -203,6 +250,20 @@ public class ConsoleUI {
                     ct.getPopulation());
 
         }
+ */
+        for (City ct : list) {
+            System.out.printf("%-30s %-40s %-20s %-15s%n",
+
+                    ct.getName(),
+
+
+                    ct.getCountry(),
+                    ct.getDistrict(),
+                    ct.getPopulation());
+
+        }
+
+
     }
     private void printCapitals(List<Country> list) {
         if (list == null || list.isEmpty()) {
@@ -210,14 +271,15 @@ public class ConsoleUI {
             return;
         }
 
-        System.out.printf("%-35s  %-15s %-30s %-15s%n",
-                "Capital", "Continent", "Region", "Population");
+        System.out.printf("%-35s %-35s %-15s%n",
+                "Capital", "Country", "Population");
 
         for (Country ca : list) {
-            System.out.printf("%-35s %-15s %-30s %-15s%n",
+            System.out.printf("%-35s %-35s %-15s%n",
                     ca.getCapital(),
-                    ca.getContinent(),
-                    ca.getRegion(),
+                    ca.getName(),
+                  //  ca.getContinent(),
+                   // ca.getRegion(),
                     ca.getPopulation());
 
         }

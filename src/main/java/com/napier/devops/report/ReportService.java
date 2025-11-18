@@ -32,6 +32,23 @@ public class ReportService {
         return countryDAO.getCountriesByRegion(region);
     }
 
+    // New: Top N in world
+    public List<Country> getTopCountriesInWorld(int n) throws SQLException {
+        return countryDAO.getTopCountriesInWorld(n);
+    }
+
+    // New: Top N in continent
+    public List<Country> getTopCountriesInContinent(String continent, int n) throws SQLException {
+        return countryDAO.getTopCountriesInContinent(continent, n);
+    }
+
+    // New: Top N in region
+    public List<Country> getTopCountriesInRegion(String region, int n) throws SQLException {
+        return countryDAO.getTopCountriesInRegion(region, n);
+    }
+
+
+    /* OLD CODE
     public List<Country> getAllTopNCountriesByPopulation() throws SQLException {
         return countryDAO.getAllTopNCountriesByPopulation();
     }
@@ -43,10 +60,11 @@ public class ReportService {
     public List<Country> getAllTopNCountriesByRegion(String region) throws SQLException {
         return countryDAO.getAllTopNCountriesByRegion(region);
     }
-
+*/
     public List<City> getAllCitiesByPopulation() throws SQLException {
         return cityDAO.getAllCitiesByPopulation();
     }
+
 
     public List<City> getAllCitiesByContinent(String continent) throws SQLException {
         return cityDAO.getAllCitiesByContinent(continent);
@@ -64,8 +82,8 @@ public class ReportService {
         return cityDAO.getAllCitiesByDistrict(district);
     }
 
-    public List<City> getAllTopNCitiesByPopulation() throws SQLException {
-        return cityDAO.getAllTopNCitiesByPopulation();
+    public List<City> getAllTopNCitiesByPopulation(int n) throws SQLException {
+        return cityDAO.getAllTopNCitiesByPopulation(n);
     }
 
     public List<City> getAllTopNCitiesByContinent(String continent) throws SQLException {

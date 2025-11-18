@@ -22,13 +22,13 @@ public record CountryDAO(Connection con) {
         return c;
     }
 
-    // 1. All countries in the world
+    // 1. All countries in the world and #17
     public List<Country> getAllCountriesByPopulation() throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
-                ORDER BY co.Population DESC;
+                ORDER BY co.Population DESC limit 10;
                 """;
 
         List<Country> list = new ArrayList<>();
@@ -39,14 +39,14 @@ public record CountryDAO(Connection con) {
         return list;
     }
 
-    // 2. Countries in a continent
+    // 2. Countries in a continent and #18
     public List<Country> getCountriesByContinent(String continent) throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
                 WHERE co.Continent = ?
-                ORDER BY co.Population DESC;
+                ORDER BY co.Population DESC limit 10;
                 """;
 
         List<Country> list = new ArrayList<>();
@@ -78,6 +78,8 @@ public record CountryDAO(Connection con) {
         }
         return list;
     }
+
+/*
     // 4. All countries in the world
     public List<Country> getAllTopNCountriesByPopulation() throws SQLException {
         String sql = """
@@ -128,6 +130,71 @@ public record CountryDAO(Connection con) {
         List<Country> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, region);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCountry(rs));
+            }
+        }
+        return list;
+    }
+
+*/
+    // 4. Top N countries in the world by population
+    public List<Country> getTopCountriesInWorld(int n) throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                ORDER BY co.Population DESC
+                LIMIT ?;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, n);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCountry(rs));
+            }
+        }
+        return list;
+    }
+
+    // 5. Top N countries in a continent by population
+    public List<Country> getTopCountriesInContinent(String continent, int n) throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                WHERE co.Continent = ?
+                ORDER BY co.Population DESC
+                LIMIT ?;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, continent);
+            stmt.setInt(2, n);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCountry(rs));
+            }
+        }
+        return list;
+    }
+
+    // 6. Top N countries in a region by population
+    public List<Country> getTopCountriesInRegion(String region, int n) throws SQLException {
+        String sql = """
+                SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
+                FROM country co
+                LEFT JOIN city ci ON co.Capital = ci.ID
+                WHERE co.Region = ?
+                ORDER BY co.Population DESC
+                LIMIT ?;
+                """;
+
+        List<Country> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, region);
+            stmt.setInt(2, n);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) list.add(mapCountry(rs));
             }
