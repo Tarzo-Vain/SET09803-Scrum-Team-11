@@ -1,8 +1,7 @@
 package com.napier.devops.dao;
 
 import com.napier.devops.model.City;
-
-
+import com.napier.devops.model.Country;
 
 
 import java.sql.Connection;
@@ -16,10 +15,10 @@ public record CityDAO(Connection con) {
 
     private City mapCity(ResultSet rs) throws SQLException {
         City ct = new City();
-        //ct.setId(rs.getInt("ID"));
+        ct.setId(rs.getInt("ID"));
         ct.setName(rs.getString("Name"));
-       // ct.setContinent(rs.getString("Continent"));
-       // ct.setRegion(rs.getString("Region"));
+        ct.setContinent(rs.getString("Continent"));
+        ct.setRegion(rs.getString("Region"));
         ct.setCountry(rs.getString("Country"));
         ct.setDistrict(rs.getString("District"));
         ct.setPopulation(rs.getLong("Population"));
@@ -29,22 +28,12 @@ public record CityDAO(Connection con) {
 
     // 7. All Cities in the world
     public List<City> getAllCitiesByPopulation() throws SQLException {
-       /*
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 ORDER BY ci.Population DESC;
                 """;
-
-        */
-        String sql = """
-                SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent
-                FROM city ci
-                LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC limit 10;
-                """;
-
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql);
@@ -61,7 +50,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Continent = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -81,7 +70,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Region = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -101,7 +90,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Name = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -121,7 +110,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE ci.District = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -135,35 +124,40 @@ public record CityDAO(Connection con) {
     }
 
     // 12. All Cities in the world
-    public List<City> getAllTopNCitiesByPopulation() throws SQLException {
+    public List<City> getAllTopNCitiesByPopulation(int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC
+                LIMIT ?
                 """;
 
         List<City> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) list.add(mapCity(rs));
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, n);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) list.add(mapCity(rs));
+            }
         }
         return list;
     }
 
     // 13. Cities in a continent
-    public List<City> getAllTopNCitiesByContinent(String continent) throws SQLException {
+    public List<City> getAllTopNCitiesByContinent(String continent,int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Continent = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC
+                LIMIT ?;
                 """;
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, continent);
+            stmt.setInt(2, n);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) list.add(mapCity(rs));
             }
@@ -172,18 +166,20 @@ public record CityDAO(Connection con) {
     }
 
     // 14. Cities in a region
-    public List<City> getAllTopNCitiesByRegion(String region) throws SQLException {
+    public List<City> getAllTopNCitiesByRegion(String region, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Region = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC
+                LIMIT ?;
                 """;
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, region);
+            stmt.setInt(2, n);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) list.add(mapCity(rs));
             }
@@ -192,18 +188,20 @@ public record CityDAO(Connection con) {
     }
 
     // 15. Cities in a continent
-    public List<City> getAllTopNCitiesByCountry(String country) throws SQLException {
+    public List<City> getAllTopNCitiesByCountry(String country, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Name = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC
+                LIMIT ?;
                 """;
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, country);
+            stmt.setInt(2, n);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) list.add(mapCity(rs));
             }
@@ -212,18 +210,20 @@ public record CityDAO(Connection con) {
     }
 
     // 16. Cities in a continent
-    public List<City> getAllTopNCitiesByDistrict(String district) throws SQLException {
+    public List<City> getAllTopNCitiesByDistrict(String district, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE ci.District = ?
-                ORDER BY ci.Population DESC;
+                ORDER BY ci.Population DESC
+                LIMIT ?;
                 """;
 
         List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, district);
+            stmt.setInt(2, n);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) list.add(mapCity(rs));
             }

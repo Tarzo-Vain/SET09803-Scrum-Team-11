@@ -13,24 +13,10 @@ public class City {
 
     public City() {}
 
-/*
-    public City(int id, String name,String continent , String region ,String country , String countryCode, String district, long population) {
-        this.id = id;
-        this.name = name;
-        this.continent = continent;
-        this.region = region;
-        this.country = country;
-        this.countryCode = countryCode;
-        this.district = district;
-        this.population = population;
-
-    }
-
- */
 public City(int id, String name,String continent , String region ,String country , String countryCode, String district, long population) {
     this.id = id;
     this.name = name;
-   // this.continent = continent;
+    this.continent = continent;
     this.region = region;
     this.country = country;
     this.countryCode = countryCode;
