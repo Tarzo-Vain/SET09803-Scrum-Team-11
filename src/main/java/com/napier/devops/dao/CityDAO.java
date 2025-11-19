@@ -1,7 +1,7 @@
 package com.napier.devops.dao;
 
 import com.napier.devops.model.City;
-import com.napier.devops.model.Country;
+//import com.napier.devops.model.Country;
 
 
 import java.sql.Connection;
@@ -15,10 +15,10 @@ public record CityDAO(Connection con) {
 
     private City mapCity(ResultSet rs) throws SQLException {
         City ct = new City();
-        ct.setId(rs.getInt("ID"));
+       // ct.setId(rs.getInt("ID"));
         ct.setName(rs.getString("Name"));
-        ct.setContinent(rs.getString("Continent"));
-        ct.setRegion(rs.getString("Region"));
+      //  ct.setContinent(rs.getString("Continent"));
+     //   ct.setRegion(rs.getString("Region"));
         ct.setCountry(rs.getString("Country"));
         ct.setDistrict(rs.getString("District"));
         ct.setPopulation(rs.getLong("Population"));
