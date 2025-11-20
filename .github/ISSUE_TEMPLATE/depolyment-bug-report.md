@@ -1,9 +1,9 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: Reports Generater Bug report
+name: Depolyment Bug Report
+about: Create a report to help us fix any Depolyment Bugs
+title: Depolyment Bug Report
 labels: bug
-assignees: oobando-40725271, Tarzo-Vain
+assignees: Seanico25, Vikrs05
 
 ---
 

@@ -1,9 +1,9 @@
 ---
-name: Documentation Bug Report
-about: Create a report to help any errors in the documentation.
-title: Documentation Bug Report
-labels: documentation
-assignees: aajalghamdi, Mriveroll21
+name: Reports Generater Bug Report
+about: Create a report to help us improve
+title: Reports Generater Bug Report
+labels: bug
+assignees: oobando-40725271, Tarzo-Vain
 
 ---
 
