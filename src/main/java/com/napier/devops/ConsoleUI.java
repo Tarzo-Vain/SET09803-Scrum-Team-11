@@ -64,65 +64,71 @@ public class ConsoleUI {
 
             try {
                 switch (choice) {
-                    case 1 -> printCountries(reportService.getAllCountries());
+                    case 1 -> printCountries(reportService.getAllCountries()," All Countries in the World");
                     case 2 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
-                        printCountries(reportService.getCountriesByContinent(continent));
+                        printCountries(reportService.getCountriesByContinent(continent),"Countries in Continent: " + continent);
                     }
                     case 3 -> {
                         System.out.print("Enter region: ");
                         String region = scanner.nextLine();
-                        printCountries(reportService.getCountriesByRegion(region));
+                        printCountries(reportService.getCountriesByRegion(region),"Countries in Region: " + region );
                     }
                     case 4 -> {
                         int n = readPositiveInt("Enter N (top N countries in the world): ");
-                        printCountries(reportService.getTopCountriesInWorld(n));
+                        printCountries(reportService.getTopCountriesInWorld(n), "Top " + n + " Countries in the World");
                     }
 
                     case 5 -> {
                         String continent = readString("Enter continent: ");
                         int n = readPositiveInt("Enter N (top N in this continent): ");
-                        printCountries(reportService.getTopCountriesInContinent(continent, n));
+                        printCountries(reportService.getTopCountriesInContinent(continent, n),"Top " + n + " Countries in Continent: " + continent);
                     }
 
                     case 6 -> {
                         String region = readString("Enter region: ");
                         int n = readPositiveInt("Enter N (top N in this region): ");
-                        printCountries(reportService.getTopCountriesInRegion(region, n));
+                        printCountries(reportService.getTopCountriesInRegion(region, n), "Top " + n + " Countries in Region: " + region);
                     }
 
-                    case 7 -> printCities(reportService.getAllCitiesByPopulation());
+                    case 7 -> printCities(reportService.getAllCitiesByPopulation(),
+                            "All Cities in the World");
 
 
                     case 8 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByContinent(continent));
+                        printCities(reportService.getAllCitiesByContinent(continent),
+                                "Cities in Continent - " + continent);
                     }
 
                     case 9 -> {
                         System.out.print("Enter region: ");
                         String region = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByRegion(region));
+                        printCities(reportService.getAllCitiesByRegion(region),
+                                "Cities in Region - " + region);
                     }
 
                     case 10 -> {
                         System.out.print("Enter country: ");
                         String country = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByCountry(country));
+                        printCities(reportService.getAllCitiesByCountry(country),
+                                "Cities in Country - " + country);
                     }
 
                     case 11 -> {
                         System.out.print("Enter district: ");
                         String district = scanner.nextLine();
-                        printCities(reportService.getAllCitiesByDistrict(district));
+                        printCities(reportService.getAllCitiesByDistrict(district),
+                                "Cities in District - " + district);
                     }
 
                     case 12 ->{
                         //printCities(reportService.getAllTopNCitiesByPopulation());
                         int n = readPositiveInt("Enter N (top N Cities in the world): ");
-                         printCities(reportService.getAllTopNCitiesByPopulation(n));
+                         printCities(reportService.getAllTopNCitiesByPopulation(n),
+                                 "Top " + n + " Populated Cities in the World");
                     }
 
 
@@ -131,7 +137,8 @@ public class ConsoleUI {
                         //String continent = scanner.nextLine();
                         String continent = readString("Enter continent: ");
                         int n = readPositiveInt("Enter N (top N Cities in this continent): ");
-                        printCities(reportService.getAllTopNCitiesByContinent(continent,n));
+                        printCities(reportService.getAllTopNCitiesByContinent(continent,n),
+                                "Top " + n + " Populated Cities in Continent - " + continent);
                     }
 
                     case 14 -> {
@@ -139,7 +146,8 @@ public class ConsoleUI {
                         //String region = scanner.nextLine();
                         String region = readString("Enter region: ");
                         int n = readPositiveInt("Enter N (top N Cities in this region): ");
-                        printCities(reportService.getAllTopNCitiesByRegion(region,n));
+                        printCities(reportService.getAllTopNCitiesByRegion(region,n),
+                                "Top " + n + " Populated Cities in Region - " + region);
                     }
 
                     case 15 -> {
@@ -147,7 +155,8 @@ public class ConsoleUI {
                        // String country = scanner.nextLine();
                         String country = readString("Enter Country: ");
                         int n = readPositiveInt("Enter N (top N Cities in this Country): ");
-                        printCities(reportService.getAllTopNCitiesByCountry(country, n));
+                        printCities(reportService.getAllTopNCitiesByCountry(country, n),
+                                "Top " + n + " Populated Cities in Country - " + country);
                     }
 
                     case 16 -> {
@@ -155,7 +164,8 @@ public class ConsoleUI {
                       //  String district = scanner.nextLine();
                         String district = readString("Enter district: ");
                         int n = readPositiveInt("Enter N (top N Cities in this district): ");
-                        printCities(reportService.getAllTopNCitiesByDistrict(district,n));
+                        printCities(reportService.getAllTopNCitiesByDistrict(district,n),
+                                "Top " + n + " Populated Cities in District - " + district);
                     }
 
                     case 17 -> printCapitals(reportService.getAllCountries());
@@ -288,68 +298,129 @@ public class ConsoleUI {
         return scanner.nextLine().trim();
     }
 
+
     //--------Output Helpers-----------
-    private void printCountries(List<Country> list) {
+
+    //new print countries with title and ASCII table format.
+    private void printCountries(List<Country> list, String title) {
         if (list == null || list.isEmpty()) {
             System.out.println("No results.");
             return;
         }
 
-        System.out.printf("%-5s %-50s %-15s %-30s %-15s %-20s%n",
-                "Code", "Name", "Continent", "Region", "Population", "Capital");
+        int wCode = 5;
+        int wName = 40;
+        int wCont = 15;
+        int wReg  = 25;
+        int wPop  = 15;
+        int wCap  = 20;
 
+        System.out.println();
+        System.out.println("=== " + title + " ===");
+
+        // Top border
+        System.out.print("┌");
+        System.out.print("─".repeat(wCode + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wName + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wCont + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wReg  + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wPop  + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wCap  + 2)); System.out.println("┐");
+
+        // Header
+        System.out.printf(
+                "│ %-"+wCode+"s │ %-"+wName+"s │ %-"+wCont+"s │ %-"+wReg+"s │ %-"+wPop+"s │ %-"+wCap+"s │%n",
+                "Code", "Name", "Continent", "Region", "Population", "Capital"
+        );
+
+        // Separator
+        System.out.print("├");
+        System.out.print("─".repeat(wCode + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wName + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wCont + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wReg  + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wPop  + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wCap  + 2)); System.out.println("┤");
+
+        // Rows
         for (Country c : list) {
-            System.out.printf("%-5s %-50s %-15s %-30s %-15d %-20s%n",
+            System.out.printf(
+                    "│ %-"+wCode+"s │ %-"+wName+"s │ %-"+wCont+"s │ %-"+wReg+"s │ %,"+wPop+"d │ %-"+wCap+"s │%n",
                     c.getCode(),
                     c.getName(),
                     c.getContinent(),
                     c.getRegion(),
                     c.getPopulation(),
-                    c.getCapital());
+                    c.getCapital()
+            );
         }
+
+        // Bottom border
+        System.out.print("└");
+        System.out.print("─".repeat(wCode + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wName + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wCont + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wReg  + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wPop  + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wCap  + 2)); System.out.println("┘");
     }
 
-    private void printCities(List<City> list) {
+    //New PrintCities with title and ASCII Table format
+    private void printCities(List<City> list, String title) {
         if (list == null || list.isEmpty()) {
             System.out.println("No results.");
             return;
         }
-/*
-        System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
-                "ID", "City", "Continent", "Region", "Country","District", "Population");
 
- */
-        System.out.printf("%-30s %-40s %-20s %-15s%n",
-                "City", "Country", "District", "Population");
+        int wCity  = 30;
+        int wCtry  = 30;
+        int wDist  = 20;
+        int wPop   = 15;
 
+        System.out.println();
+        System.out.println("=== " + title + " ===");
 
-/*
+        // Top border
+        System.out.print("┌");
+        System.out.print("─".repeat(wCity + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wCtry + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wDist + 2)); System.out.print("┬");
+        System.out.print("─".repeat(wPop  + 2)); System.out.println("┐");
+
+        // Header
+        System.out.printf(
+                "│ %-"+wCity+"s │ %-"+wCtry+"s │ %-"+wDist+"s │ %-"+wPop+"s │%n",
+                "City", "Country", "District", "Population"
+        );
+
+        // Separator
+        System.out.print("├");
+        System.out.print("─".repeat(wCity + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wCtry + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wDist + 2)); System.out.print("┼");
+        System.out.print("─".repeat(wPop  + 2)); System.out.println("┤");
+
+        // Rows
         for (City ct : list) {
-            System.out.printf("%-5s %-35s %-15s %-30s %-40s %-20s %-15s%n",
-                    ct.getId(),
+            System.out.printf(
+                    "│ %-"+wCity+"s │ %-"+wCtry+"s │ %-"+wDist+"s │ %,"+wPop+"d │%n",
                     ct.getName(),
-                    ct.getContinent(),
-                    ct.getRegion(),
                     ct.getCountry(),
                     ct.getDistrict(),
-                    ct.getPopulation());
-
-        }
- */
-        for (City ct : list) {
-            System.out.printf("%-30s %-40s %-20s %-15s%n",
-
-                    ct.getName(),
-
-
-                    ct.getCountry(),
-                    ct.getDistrict(),
-                    ct.getPopulation());
-
+                    ct.getPopulation()
+            );
         }
 
-
+        // Bottom border
+        System.out.print("└");
+        System.out.print("─".repeat(wCity + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wCtry + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wDist + 2)); System.out.print("┴");
+        System.out.print("─".repeat(wPop  + 2)); System.out.println("┘");
     }
+
+
+
 
     private void printCapitals(List<Country> list) {
         if (list == null || list.isEmpty()) {
