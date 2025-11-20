@@ -4,6 +4,7 @@ import com.napier.devops.model.City;
 import com.napier.devops.model.Country;
 import com.napier.devops.model.PopulationReport; // *** NEW ***
 import com.napier.devops.report.ReportService;
+import com.napier.devops.model.LanguageReport;
 
 
 import java.sql.SQLException;
@@ -46,7 +47,17 @@ public class ConsoleUI {
             System.out.println("20. The top N populated capitals in the world.");
             System.out.println("21. The top N populated capitals in a continent.");
             System.out.println("22. The top N populated capitals in a region.");
-            System.out.println("23. Exit");
+            System.out.println("23. Population by continent (total / in cities / not in cities).");
+            System.out.println("24. Population by region (total / in cities / not in cities).");
+            System.out.println("25. Population by country (total / in cities / not in cities).");
+            System.out.println("26. The population of a world.");
+            System.out.println("27. The population of a continent.");
+            System.out.println("28. The population of a region.");
+            System.out.println("29. The population of a country.");
+            System.out.println("30. The population of a district.");
+            System.out.println("31. The population of a city.");
+            System.out.println("32. Language speakers report.");
+            System.out.println("0. Exit");
             System.out.print("Enter option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -174,14 +185,73 @@ public class ConsoleUI {
                         int n = readPositiveInt("Enter N (top N Capital Cities in this continent): ");
                         printCapitals(reportService.getTopCountriesInContinent(continent, n));
                     }
-/* old code
+
                     case 22 -> {
-                        System.out.print("Enter region: ");
-                        String region = scanner.nextLine();
-                        printCapitals(reportService.getAllTopNCountriesByRegion(region));
+                        //System.out.print("Enter region: ");
+                        //String region = scanner.nextLine();
+                        String region = readString("Enter region: ");
+                        int n = readPositiveInt("Enter N (top N Capital Cities in this region): ");
+                        //printCapitals(reportService.getAllTopNCountriesByRegion(region));
+                        printCapitals(reportService.getTopCountriesInRegion(region,n));
+                    }
+                    case 23 -> {
+                        List<PopulationReport> list = reportService.getPopulationByContinent();
+                        printPopulationReportTable("Population by Continent", list);
                     }
 
- */
+                    case 24 -> {
+                        List<PopulationReport> list = reportService.getPopulationByRegion();
+                        printPopulationReportTable("Population by Region", list);
+                    }
+
+                    case 25 -> {
+                        List<PopulationReport> list = reportService.getPopulationByCountry();
+                        printPopulationReportTable("Population by Country", list);
+                    }
+
+                    case 26 -> {
+                        // World population
+                        PopulationReport report = reportService.getWorldPopulationReport();
+                        printPopulationReport(report);
+                    }
+
+                    case 27 -> {
+                        String continent = readString("Enter continent: ");
+                        PopulationReport report = reportService.getContinentPopulationReport(continent);
+                        printPopulationReport(report);
+                    }
+
+
+                    case 28 -> {
+                        String region = readString("Enter region: ");
+                        PopulationReport report = reportService.getRegionPopulationReport(region);
+                        printPopulationReport(report);
+                    }
+
+                    case 29 -> {
+                        String country = readString("Enter country: ");
+                        PopulationReport report = reportService.getCountryPopulationReport(country);
+                        printPopulationReport(report);
+                    }
+
+                    case 30 -> {
+                        // District population
+                        String district = readString("Enter district: ");
+                        PopulationReport report = reportService.getDistrictPopulationReport(district);
+                        printPopulationReport(report);
+                    }
+                    case 31 -> {
+                        // City population
+                        String city = readString("Enter city: ");
+                        PopulationReport report = reportService.getCityPopulationReport(city);
+                        printPopulationReport(report);
+                    }
+                    case 32 -> {
+                        List<LanguageReport> list = reportService.getLanguageReport();
+                        printLanguageReport(list);
+                    }
+
+
                     case 0 -> running = false;
                     default -> System.out.println("Invalid choice.");
                 }
@@ -324,7 +394,10 @@ public class ConsoleUI {
         }
     }
 
+
+
     // *** NEW ***
+    /*
     // Population Report output
     private void printPopulationReport(PopulationReport report) {
         if (report == null) {
@@ -345,6 +418,123 @@ public class ConsoleUI {
                 "Not living in cities",
                 report.getNonCityPopulation(),
                 report.getNonCityPopulationPercent());
+    }
+    */
+    private void printPopulationReport(PopulationReport report) {
+        if (report == null) {
+            System.out.println("No results for this population report.");
+            return;
+        }
+
+        String name = report.getName();
+        long total = report.getTotalPopulation();
+        long city = report.getCityPopulation();
+        long nonCity = report.getNonCityPopulation();
+        double pctCity = report.getCityPopulationPercent();
+        double pctNonCity = report.getNonCityPopulationPercent();
+
+        System.out.println();
+        System.out.println("┌──────────────────────────────┬──────────────────────────┬───────────────────────────────┬────────────────────────────────┐");
+        System.out.printf ("│ %-28s │ %-24s │ %-29s │ %-30s │%n",
+                "Name",
+                "Total Population",
+                "Living in Cities",
+                "Not Living in Cities"
+        );
+        System.out.println("├──────────────────────────────┼──────────────────────────┼───────────────────────────────┼────────────────────────────────┤");
+
+        System.out.printf("│ %-28s │ %,24d │ %,15d (%.2f%%) │ %,15d (%.2f%%) │%n",
+                name,
+                total,
+                city, pctCity,
+                nonCity, pctNonCity
+        );
+
+        System.out.println("└──────────────────────────────┴──────────────────────────┴───────────────────────────────┴────────────────────────────────┘");
+    }
+    private void printLanguageReport(List<LanguageReport> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("No language data found.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("┌────────────────────────┬───────────────────────────┬──────────────────────────────┐");
+        System.out.printf ("│ %-22s │ %-25s │ %-28s │%n",
+                "Language",
+                "Speakers",
+                "% of World Population"
+        );
+        System.out.println("├────────────────────────┼───────────────────────────┼──────────────────────────────┤");
+
+        for (LanguageReport lr : list) {
+            System.out.printf("│ %-22s │ %,25d │ %26.2f%% │%n",
+                    lr.getLanguage(),
+                    lr.getSpeakers(),
+                    lr.getPercentOfWorld()
+            );
+        }
+
+        System.out.println("└────────────────────────┴───────────────────────────┴──────────────────────────────┘");
+    }
+
+    private void printPopulationReportTable(String title, List<PopulationReport> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("No results for this population report.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("=== " + title + " ===");
+
+        // Column widths — *must match formatting*
+        int w1 = 25;  // Name
+        int w2 = 24;  // Total Population
+        int w3 = 31;  // Living in Cities
+        int w4 = 30;  // Not Living in Cities
+
+        // Top border
+        System.out.print("┌");
+        System.out.print("─".repeat(w1 + 2)); System.out.print("┬");
+        System.out.print("─".repeat(w2 + 2)); System.out.print("┬");
+        System.out.print("─".repeat(w3 + 2)); System.out.print("┬");
+        System.out.print("─".repeat(w4 + 2)); System.out.println("┐");
+
+        // Header row
+        System.out.printf(
+                "│ %-"+w1+"s │ %-"+w2+"s │ %-"+w3+"s │ %-"+w4+"s │%n",
+                "Name",
+                "Total Population",
+                "Living in Cities",
+                "Not Living in Cities"
+        );
+
+        // Separator
+        System.out.print("├");
+        System.out.print("─".repeat(w1 + 2)); System.out.print("┼");
+        System.out.print("─".repeat(w2 + 2)); System.out.print("┼");
+        System.out.print("─".repeat(w3 + 2)); System.out.print("┼");
+        System.out.print("─".repeat(w4 + 2)); System.out.println("┤");
+
+        // Data rows
+        for (PopulationReport r : list) {
+            System.out.printf(
+                    "│ %-"+w1+"s │ %,"+w2+"d │ %,"+(w3-16)+"d (%.2f%%) │ %,"+(w4-16)+"d (%.2f%%) │%n",
+                    r.getName(),
+                    r.getTotalPopulation(),
+                    r.getCityPopulation(),
+                    r.getCityPopulationPercent(),
+                    r.getNonCityPopulation(),
+                    r.getNonCityPopulationPercent()
+            );
+        }
+
+        // Bottom border
+        System.out.print("└");
+        System.out.print("─".repeat(w1 + 2)); System.out.print("┴");
+        System.out.print("─".repeat(w2 + 2)); System.out.print("┴");
+        System.out.print("─".repeat(w3 + 2)); System.out.print("┴");
+        System.out.print("─".repeat(w4 + 2)); System.out.println("┘");
     }
 
 }

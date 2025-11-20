@@ -5,6 +5,7 @@ import com.napier.devops.dao.CityDAO;
 import com.napier.devops.model.City;
 import com.napier.devops.model.Country;
 import com.napier.devops.model.PopulationReport; //**New***
+import com.napier.devops.model.LanguageReport;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -118,4 +119,38 @@ public class ReportService {
     public PopulationReport getCountryPopulationReport(String countryName) throws SQLException {
         return countryDAO.getCountryPopulationReport(countryName);
     }
+
+    //world population report.
+    public PopulationReport getWorldPopulationReport() throws SQLException {
+        return countryDAO.getWorldPopulationReport();
+    }
+
+    // District population report
+    public PopulationReport getDistrictPopulationReport(String district) throws SQLException {
+        return cityDAO.getDistrictPopulationReport(district);
+    }
+    // City population report
+    public PopulationReport getCityPopulationReport(String cityName) throws SQLException {
+        return cityDAO.getCityPopulationReport(cityName);
+    }
+
+    //language report
+    public List<LanguageReport> getLanguageReport() throws SQLException {
+        return countryDAO.getLanguageReport();
+    }
+    // List population report for all continents
+    public List<PopulationReport> getPopulationByContinent() throws SQLException {
+        return countryDAO.getPopulationByContinent();
+    }
+
+    // List population report for all regions
+    public List<PopulationReport> getPopulationByRegion() throws SQLException {
+        return countryDAO.getPopulationByRegion();
+    }
+
+    // List population report for all countries
+    public List<PopulationReport> getPopulationByCountry() throws SQLException {
+        return countryDAO.getPopulationByCountry();
+    }
+
 }

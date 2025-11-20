@@ -2,6 +2,7 @@ package com.napier.devops.dao;
 
 import com.napier.devops.model.Country;
 import com.napier.devops.model.PopulationReport; // *** NEW ***
+import com.napier.devops.model.LanguageReport;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -314,5 +315,122 @@ public record CountryDAO(Connection con) {
         }
         return null;
     }
+    // Population report for the whole world
+    public PopulationReport getWorldPopulationReport() throws SQLException {
+        String sql = """
+            SELECT 'World' AS Name,
+                   SUM(co.Population) AS TotalPop,
+                   SUM(ci.Population) AS CityPop
+            FROM country co
+            LEFT JOIN city ci ON co.Code = ci.CountryCode;
+            """;
+
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return mapPopulationReport(rs);
+            }
+        }
+        return null;
+    }
+    // *** NEW ***
+// Get speaker counts for specific languages, ordered largest → smallest
+    public List<LanguageReport> getLanguageReport() throws SQLException {
+
+        String sql = """
+            SELECT cl.Language AS Language,
+                   SUM(co.Population * cl.Percentage / 100) AS Speakers,
+                   (SUM(co.Population * cl.Percentage / 100) /
+                    (SELECT SUM(Population) FROM country) * 100) AS PercentWorld
+            FROM countrylanguage cl
+            JOIN country co ON cl.CountryCode = co.Code
+            WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic')
+            GROUP BY cl.Language
+            ORDER BY Speakers DESC;
+            """;
+
+        List<LanguageReport> list = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                LanguageReport lr = new LanguageReport();
+                lr.setLanguage(rs.getString("Language"));
+                lr.setSpeakers(rs.getLong("Speakers"));
+                lr.setPercentOfWorld(rs.getDouble("PercentWorld"));
+                list.add(lr);
+            }
+        }
+        return list;
+    }
+    // Population of people, people living in cities,
+// and people not living in cities in each continent.
+    public List<PopulationReport> getPopulationByContinent() throws SQLException {
+        String sql = """
+            SELECT co.Continent AS Name,
+                   SUM(co.Population) AS TotalPop,
+                   SUM(ci.Population) AS CityPop
+            FROM country co
+            LEFT JOIN city ci ON co.Code = ci.CountryCode
+            GROUP BY co.Continent
+            ORDER BY TotalPop DESC;
+            """;
+
+        List<PopulationReport> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                list.add(mapPopulationReport(rs));
+            }
+        }
+        return list;
+    }
+    // Population of people, people living in cities,
+// and people not living in cities in each region.
+    public List<PopulationReport> getPopulationByRegion() throws SQLException {
+        String sql = """
+            SELECT co.Region AS Name,
+                   SUM(co.Population) AS TotalPop,
+                   SUM(ci.Population) AS CityPop
+            FROM country co
+            LEFT JOIN city ci ON co.Code = ci.CountryCode
+            GROUP BY co.Region
+            ORDER BY TotalPop DESC;
+            """;
+
+        List<PopulationReport> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                list.add(mapPopulationReport(rs));
+            }
+        }
+        return list;
+    }
+
+    // Population of people, people living in cities,
+// and people not living in cities in each country.
+    public List<PopulationReport> getPopulationByCountry() throws SQLException {
+        String sql = """
+            SELECT co.Name AS Name,
+                   co.Population AS TotalPop,
+                   SUM(ci.Population) AS CityPop
+            FROM country co
+            LEFT JOIN city ci ON co.Code = ci.CountryCode
+            GROUP BY co.Name, co.Population
+            ORDER BY TotalPop DESC;
+            """;
+
+        List<PopulationReport> list = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                list.add(mapPopulationReport(rs));
+            }
+        }
+        return list;
+    }
+
 
 }
