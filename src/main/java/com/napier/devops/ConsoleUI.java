@@ -151,17 +151,13 @@ public class ConsoleUI {
                     }
 
                     case 15 -> {
-                        //System.out.print("Enter country: ");
-                       // String country = scanner.nextLine();
-                        String country = readString("Enter Country: ");
+                       String country = readString("Enter Country: ");
                         int n = readPositiveInt("Enter N (top N Cities in this Country): ");
                         printCities(reportService.getAllTopNCitiesByCountry(country, n),
                                 "Top " + n + " Populated Cities in Country - " + country);
                     }
 
                     case 16 -> {
-                       // System.out.print("Enter district: ");
-                      //  String district = scanner.nextLine();
                         String district = readString("Enter district: ");
                         int n = readPositiveInt("Enter N (top N Cities in this district): ");
                         printCities(reportService.getAllTopNCitiesByDistrict(district,n),
@@ -192,9 +188,6 @@ public class ConsoleUI {
                     }
 
                     case 21 -> {
-                       // System.out.print("Enter continent: ");
-                       // String continent = scanner.nextLine();
-                        //printCapitals(reportService.getAllTopNCountriesByContinent(continent));
                         String continent = readString("Enter continent: ");
                         int n = readPositiveInt("Enter N (top N Capital Cities in this continent): ");
                         printCapitals(reportService.getTopCountriesInContinent(continent, n),
@@ -202,8 +195,6 @@ public class ConsoleUI {
                     }
 
                     case 22 -> {
-                        //System.out.print("Enter region: ");
-                        //String region = scanner.nextLine();
                         String region = readString("Enter region: ");
                         int n = readPositiveInt("Enter N (top N Capital Cities in this region): ");
                         //printCapitals(reportService.getAllTopNCountriesByRegion(region));

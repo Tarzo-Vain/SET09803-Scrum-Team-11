@@ -1,7 +1,7 @@
 package com.napier.devops.dao;
 
 import com.napier.devops.model.City;
-import com.napier.devops.model.Country;
+//import com.napier.devops.model.Country;
 import com.napier.devops.model.PopulationReport;
 
 
@@ -18,8 +18,6 @@ public record CityDAO(Connection con) {
         City ct = new City();
         //ct.setId(rs.getInt("ID"));
         ct.setName(rs.getString("Name"));
-       // ct.setContinent(rs.getString("Continent"));
-       // ct.setRegion(rs.getString("Region"));
         ct.setCountry(rs.getString("Country"));
         ct.setDistrict(rs.getString("District"));
         ct.setPopulation(rs.getLong("Population"));
@@ -29,16 +27,7 @@ public record CityDAO(Connection con) {
 
     // 7. All Cities in the world
     public List<City> getAllCitiesByPopulation() throws SQLException {
-       /*
-        String sql = """
-                SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
-                FROM city ci
-                LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC;
-                """;
-
-        */
-        String sql = """
+              String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
@@ -140,17 +129,11 @@ public record CityDAO(Connection con) {
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC 
+                ORDER BY ci.Population DESC
                 LIMIT ?;
                 """;
 
-      /*  List<City> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) list.add(mapCity(rs));
-        }
-        */
-        List<City> list = new ArrayList<>();
+            List<City> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(sql)) {
             // stmt.setString(1, region);
             stmt.setInt(1, n);
