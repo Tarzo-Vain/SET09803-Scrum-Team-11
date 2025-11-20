@@ -1,9 +1,9 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: Country Report
+title: Reports Generater Bug report
 labels: bug
-assignees: Tarzo-Vain, oobando-40725271
+assignees: oobando-40725271, Tarzo-Vain
 
 ---
 
