@@ -31,7 +31,7 @@ public record CityDAO(Connection con) {
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
 
@@ -50,7 +50,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Continent = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -70,7 +70,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Region = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -90,7 +90,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE co.Name = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();
@@ -110,7 +110,7 @@ public record CityDAO(Connection con) {
                 FROM city ci
                 LEFT JOIN country co ON ci.CountryCode = co.Code
                 WHERE ci.District = ?
-                ORDER BY ci.Population DESC limit 10;
+                ORDER BY ci.Population DESC;
                 """;
 
         List<City> list = new ArrayList<>();

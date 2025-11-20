@@ -68,7 +68,7 @@ public record CountryDAO(Connection con) {
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population, ci.Name AS Capital
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
-                ORDER BY co.Population DESC limit 10;
+                ORDER BY co.Population DESC;
                 """;
 
         List<Country> list = new ArrayList<>();
@@ -86,7 +86,7 @@ public record CountryDAO(Connection con) {
                 FROM country co
                 LEFT JOIN city ci ON co.Capital = ci.ID
                 WHERE co.Continent = ?
-                ORDER BY co.Population DESC limit 10;
+                ORDER BY co.Population DESC;
                 """;
 
         List<Country> list = new ArrayList<>();
