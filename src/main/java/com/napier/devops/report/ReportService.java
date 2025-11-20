@@ -50,20 +50,7 @@ public class ReportService {
         return countryDAO.getTopCountriesInRegion(region, n);
     }
 
-/* old code
-//used by menu 20
-    public List<Country> getAllTopNCountriesByPopulation(int n) throws SQLException {
-        return countryDAO.getAllTopNCountriesByPopulation(n);
-    }
 
-    public List<Country> getAllTopNCountriesByContinent(String continent) throws SQLException {
-        return countryDAO.getAllTopNCountriesByContinent(continent);
-    }
-
-    public List<Country> getAllTopNCountriesByRegion(String region) throws SQLException {
-        return countryDAO.getAllTopNCountriesByRegion(region);
-    }
-*/
     //--------------CITY REPORTS-------------
     public List<City> getAllCitiesByPopulation() throws SQLException {
         return cityDAO.getAllCitiesByPopulation();
