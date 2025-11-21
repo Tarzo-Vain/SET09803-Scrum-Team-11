@@ -4,6 +4,8 @@ import com.napier.devops.dao.CountryDAO;
 import com.napier.devops.dao.CityDAO;
 import com.napier.devops.model.City;
 import com.napier.devops.model.Country;
+import com.napier.devops.model.PopulationReport; //**New***
+import com.napier.devops.model.LanguageReport;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 public class ReportService {
 
     private final CountryDAO countryDAO;
-    CityDAO cityDAO;
+    private final CityDAO cityDAO;
 
 
     public ReportService(CountryDAO countryDAO, CityDAO cityDAO) {
@@ -20,6 +22,7 @@ public class ReportService {
         this.cityDAO = cityDAO;
     }
 
+    //---------------COUNTRY REPORTS--------------------
     public List<Country> getAllCountries() throws SQLException {
         return countryDAO.getAllCountriesByPopulation();
     }
@@ -47,9 +50,12 @@ public class ReportService {
         return countryDAO.getTopCountriesInRegion(region, n);
     }
 
+
+    //--------------CITY REPORTS-------------
     public List<City> getAllCitiesByPopulation() throws SQLException {
         return cityDAO.getAllCitiesByPopulation();
     }
+
 
     public List<City> getAllCitiesByContinent(String continent) throws SQLException {
         return cityDAO.getAllCitiesByContinent(continent);
@@ -71,23 +77,67 @@ public class ReportService {
         return cityDAO.getAllTopNCitiesByPopulation(n);
     }
 
-    public List<City> getAllTopNCitiesByContinent(String continent,int n) throws SQLException {
-        return cityDAO.getAllTopNCitiesByContinent(continent,n);
+    public List<City> getAllTopNCitiesByContinent(String continent, int n) throws SQLException {
+        return cityDAO.getAllTopNCitiesByContinent(continent, n);
     }
 
-    public List<City> getAllTopNCitiesByRegion(String region,int n) throws SQLException {
+    public List<City> getAllTopNCitiesByRegion(String region, int n) throws SQLException {
         return cityDAO.getAllTopNCitiesByRegion(region, n);
     }
 
-    public List<City> getAllTopNCitiesByCountry(String country,int n) throws SQLException {
-        return cityDAO.getAllTopNCitiesByCountry(country, n);
+    public List<City> getAllTopNCitiesByCountry(String country, int n) throws SQLException {
+        return cityDAO.getAllTopNCitiesByCountry(country, n );
     }
 
-    public List<City> getAllTopNCitiesByDistrict(String district,int n) throws SQLException {
-        return cityDAO.getAllTopNCitiesByDistrict(district,n);
+    public List<City> getAllTopNCitiesByDistrict(String district, int n) throws SQLException {
+        return cityDAO.getAllTopNCitiesByDistrict(district, n);
     }
 
-    public List<Country> getAllCapitals() throws SQLException {
-        return countryDAO.getAllCapitals();
+    // === NEW: POPULATION REPORT ACCESSORS ===
+
+    public PopulationReport getContinentPopulationReport(String continent) throws SQLException {
+        return countryDAO.getContinentPopulationReport(continent);
     }
+
+    public PopulationReport getRegionPopulationReport(String region) throws SQLException {
+        return countryDAO.getRegionPopulationReport(region);
+    }
+
+    public PopulationReport getCountryPopulationReport(String countryName) throws SQLException {
+        return countryDAO.getCountryPopulationReport(countryName);
+    }
+
+    //world population report.
+    public PopulationReport getWorldPopulationReport() throws SQLException {
+        return countryDAO.getWorldPopulationReport();
+    }
+
+    // District population report
+    public PopulationReport getDistrictPopulationReport(String district) throws SQLException {
+        return cityDAO.getDistrictPopulationReport(district);
+    }
+    // City population report
+    public PopulationReport getCityPopulationReport(String cityName) throws SQLException {
+        return cityDAO.getCityPopulationReport(cityName);
+    }
+
+    //language report
+    public List<LanguageReport> getLanguageReport() throws SQLException {
+        return countryDAO.getLanguageReport();
+    }
+    // List population report for all continents
+    public List<PopulationReport> getPopulationByContinent() throws SQLException {
+        return countryDAO.getPopulationByContinent();
+    }
+
+    // List population report for all regions
+    public List<PopulationReport> getPopulationByRegion() throws SQLException {
+        return countryDAO.getPopulationByRegion();
+    }
+
+    // List population report for all countries
+    public List<PopulationReport> getPopulationByCountry() throws SQLException {
+        return countryDAO.getPopulationByCountry();
+    }
+
 }
