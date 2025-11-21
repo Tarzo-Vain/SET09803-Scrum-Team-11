@@ -133,8 +133,6 @@ public class ConsoleUI {
 
 
                     case 13 -> {
-                        //System.out.print("Enter continent: ");
-                        //String continent = scanner.nextLine();
                         String continent = readString("Enter continent: ");
                         int n = readPositiveInt("Enter N (top N Cities in this continent): ");
                         printCities(reportService.getAllTopNCitiesByContinent(continent,n),
@@ -142,8 +140,6 @@ public class ConsoleUI {
                     }
 
                     case 14 -> {
-                       // System.out.print("Enter region: ");
-                        //String region = scanner.nextLine();
                         String region = readString("Enter region: ");
                         int n = readPositiveInt("Enter N (top N Cities in this region): ");
                         printCities(reportService.getAllTopNCitiesByRegion(region,n),
@@ -164,41 +160,39 @@ public class ConsoleUI {
                                 "Top " + n + " Populated Cities in District - " + district);
                     }
 
-                    case 17 -> printCapitals(reportService.getAllCountries(),
+                    case 17 -> printCapitals(reportService.getAllCapitalByPopulation(),
                             "All Capital Cities in the World");
 
                     case 18 -> {
                         System.out.print("Enter continent: ");
                         String continent = scanner.nextLine();
-                        printCapitals(reportService.getCountriesByContinent(continent),
+                        printCapitals(reportService.getAllCapitalByContinent(continent),
                                 "All Capital Cities in Continent - " + continent);
                     }
                     case 19 -> {
                         System.out.print("Enter region: ");
                         String region = scanner.nextLine();
-                        printCapitals(reportService.getCountriesByRegion(region),
+                        printCapitals(reportService.getAllCapitalByRegion(region),
                                 "All Capital Cities in Region - " + region);
                     }
 
                     case 20 ->{
                         int n = readPositiveInt("Enter N (top N Capital Cities in the world): ");
-                        //printCapitals(reportService.getAllTopNCountriesByPopulation(n));
-                        printCapitals(reportService.getTopCountriesInWorld(n),
+                        printCapitals(reportService.getTopNCapitalByPopulation(n),
                                 "The Top " + n + "Populated Capitals Cities in the World");
                     }
 
                     case 21 -> {
                         String continent = readString("Enter continent: ");
                         int n = readPositiveInt("Enter N (top N Capital Cities in this continent): ");
-                        printCapitals(reportService.getTopCountriesInContinent(continent, n),
+                        printCapitals(reportService.getTopNCapitalByContinent(continent, n),
                                 "The Top " + n + " Populated Capital Cities in Continent - " + continent);
                     }
 
                     case 22 -> {
                         String region = readString("Enter region: ");
                         int n = readPositiveInt("Enter N (top N Capital Cities in this region): ");
-                        //printCapitals(reportService.getAllTopNCountriesByRegion(region));
-                        printCapitals(reportService.getTopCountriesInRegion(region,n),
+                        printCapitals(reportService.getTopNCapitalByRegion(region,n),
                                 "The Top " + n +" Capital Cities in this Region - " + region);
                     }
                     case 23 -> {
@@ -258,8 +252,7 @@ public class ConsoleUI {
                     }
                     case 32 -> {
                         List<LanguageReport> list = reportService.getLanguageReport();
-                        printLanguageReport("The number of people who " +
-                                "speak the following languages: Chinese, English, Hindi, Spanish, Arabic.",list);
+                        printLanguageReport(list);
                     }
 
 
@@ -469,28 +462,6 @@ private void printCapitals(List<Country> list, String title) {
     System.out.print("─".repeat(wPop  + 2)); System.out.println("┘");
 }
 
-    private void printCityTable(List<City> list) {
-        if (list == null || list.isEmpty()) {
-            System.out.println("No cities found.");
-            return;
-        }
-
-        // If you REALLY don't want ID printed, remove the first column here.
-        System.out.printf("%-5s %-35s %-20s %-25s %-25s %-20s %-15s%n",
-                "ID", "Name", "Country", "Continent", "Region", "District", "Population");
-
-        for (City ct : list) {
-            System.out.printf("%-5s %-35s %-20s %-25s %-25s %-20s %,15d%n",
-                    ct.getId(),
-                    ct.getName(),
-                    ct.getCountry(),
-                    ct.getContinent(),
-                    ct.getRegion(),
-                    ct.getDistrict(),
-                    ct.getPopulation());
-        }
-    }
-
     // *** NEW *** with title
     private void printPopulationReport(String title, PopulationReport report) {
         if (report == null) {
@@ -527,20 +498,15 @@ private void printCapitals(List<Country> list, String title) {
         System.out.println("└──────────────────────────────┴──────────────────────────┴───────────────────────────────┴────────────────────────────────┘");
     }
 
-    // Default title
-    private void printPopulationReport(PopulationReport report) {
-        printPopulationReport("Population Report", report);
-    }
-
-//new print languagre report format
-private void printLanguageReport(String title, List<LanguageReport> list) {
+    //new print languagre report format
+private void printLanguageReport(List<LanguageReport> list) {
     if (list == null || list.isEmpty()) {
         System.out.println("No language data found.");
         return;
     }
 
     System.out.println();
-    System.out.println("=== " + title + " ===");
+    System.out.println("=== " + "The number of people who speak the following languages: Chinese, English, Hindi, Spanish, Arabic." + " ===");
 
     System.out.println("┌────────────────────────┬───────────────────────────┬──────────────────────────────┐");
     System.out.printf ("│ %-22s │ %-25s │ %-28s │%n",
@@ -560,11 +526,6 @@ private void printLanguageReport(String title, List<LanguageReport> list) {
 
     System.out.println("└────────────────────────┴───────────────────────────┴──────────────────────────────┘");
 }
-
-    // Default title
-    private void printLanguageReport(List<LanguageReport> list) {
-        printLanguageReport("Language Speakers Report", list);
-    }
 
 
     private void printPopulationReportTable(String title, List<PopulationReport> list) {
