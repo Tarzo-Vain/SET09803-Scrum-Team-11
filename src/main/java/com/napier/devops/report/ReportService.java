@@ -10,17 +10,7 @@ import com.napier.devops.model.LanguageReport;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReportService {
-
-    private final CountryDAO countryDAO;
-    private final CityDAO cityDAO;
-
-
-    public ReportService(CountryDAO countryDAO, CityDAO cityDAO) {
-
-        this.countryDAO = countryDAO;
-        this.cityDAO = cityDAO;
-    }
+public record ReportService(CountryDAO countryDAO, CityDAO cityDAO) {
 
     //---------------COUNTRY REPORTS--------------------
     public List<Country> getAllCountries() throws SQLException {
@@ -86,7 +76,7 @@ public class ReportService {
     }
 
     public List<City> getAllTopNCitiesByCountry(String country, int n) throws SQLException {
-        return cityDAO.getAllTopNCitiesByCountry(country, n );
+        return cityDAO.getAllTopNCitiesByCountry(country, n);
     }
 
     public List<City> getAllTopNCitiesByDistrict(String district, int n) throws SQLException {
@@ -116,6 +106,7 @@ public class ReportService {
     public PopulationReport getDistrictPopulationReport(String district) throws SQLException {
         return cityDAO.getDistrictPopulationReport(district);
     }
+
     // City population report
     public PopulationReport getCityPopulationReport(String cityName) throws SQLException {
         return cityDAO.getCityPopulationReport(cityName);
@@ -125,6 +116,7 @@ public class ReportService {
     public List<LanguageReport> getLanguageReport() throws SQLException {
         return countryDAO.getLanguageReport();
     }
+
     // List population report for all continents
     public List<PopulationReport> getPopulationByContinent() throws SQLException {
         return countryDAO.getPopulationByContinent();
@@ -140,4 +132,27 @@ public class ReportService {
         return countryDAO.getPopulationByCountry();
     }
 
+    public List<Country> getAllCapitalByPopulation() throws SQLException {
+        return countryDAO.getAllCapitalByPopulation();
+    }
+
+    public List<Country> getAllCapitalByRegion(String region) throws SQLException {
+        return countryDAO.getAllCapitalByRegion(region);
+    }
+
+    public List<Country> getAllCapitalByContinent(String continent) throws SQLException {
+        return countryDAO.getAllCapitalByContinent(continent);
+    }
+
+    public List<Country> getTopNCapitalByPopulation(int n) throws SQLException {
+        return countryDAO.getTopNCapitalByPopulation(n);
+    }
+
+    public List<Country> getTopNCapitalByRegion(String region, int n) throws SQLException {
+        return countryDAO.getTopNCapitalByRegion(region,n);
+    }
+
+    public List<Country> getTopNCapitalByContinent(String continent,int n) throws SQLException {
+        return countryDAO.getTopNCapitalByContinent(continent,n);
+    }
 }
