@@ -67,4 +67,4 @@ jobs:
         run: mvn -B test
 
       - name: Run Integration Tests (DB)
-        run: mvn -B -q verify -DskipTests
+        run: mvn -B -q verify
