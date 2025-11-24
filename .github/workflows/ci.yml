@@ -64,7 +64,7 @@ jobs:
           mysql -h 127.0.0.1 -P 3306 -uroot -pexample world < db/world.sql
 
       - name: Run Unit Tests only
-        run: mvn -B -q test
+        run: mvn -B test
 
       - name: Run Integration Tests (DB)
-        run: mvn -B -q verify
+        run: mvn -B -q verify -DskipTests
