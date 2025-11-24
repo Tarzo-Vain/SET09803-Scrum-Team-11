@@ -2,7 +2,7 @@ name: Java CI
 
 on:
   push:
-    branches: [ main, develop, feature-6 ]
+    branches: [ main, develop, feature/feature-6 ]
   pull_request:
     branches: [ main, develop, feature-6 ]
 
