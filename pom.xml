@@ -89,6 +89,8 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.2.5</version>
             <configuration>
+                <!-- IMPORTANT: avoid Java module-path weirdness -->
+                <useModulePath>false</useModulePath>
                 <includes>
                     <include>**/*Test.java</include>
                 </includes>
