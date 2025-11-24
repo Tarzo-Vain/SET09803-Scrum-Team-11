@@ -1,0 +1,67 @@
+verifyname: Java CI
+
+on:
+  push:
+    branches: [ main, develop, feature-6 ]
+  pull_request:
+    branches: [ main, develop, feature-6 ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: example
+          MYSQL_DATABASE: world
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -pexample"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      # Values used by CountryDAOIT
+      DB_HOST: 127.0.0.1
+      DB_PORT: "3306"
+      DB_NAME: world
+      DB_USER: root
+      DB_PASS: example
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Install MySQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -pexample --silent; then
+              echo "MySQL is up";
+              break;
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Import world.sql into MySQL
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -uroot -pexample world < db/world.sql
+
+      - name: Build, unit tests & integration tests
+        run: mvn -B clean verify
