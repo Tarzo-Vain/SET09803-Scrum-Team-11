@@ -29,7 +29,7 @@ License [![LICENSE](https://img.shields.io/github/license/Tarzo-Vain/SET09803-Sc
 
 Release [![Releases](https://img.shields.io/github/release/Tarzo-Vain/SET09803-Scrum-Team-11/all.svg?style=flat-square)](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/releases)
 
-![Build](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/actions/workflows/java-ci.yml/badge.svg)
+![Build](https://github.com/Tarzo-Vain/SET09803-Scrum-Team-11/actions/workflows/ci.yml/badge.svg)
 ![Coverage](coverage.svg)
 
 
