@@ -100,8 +100,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
                 <executions>
-
-                    <!-- enable coverage for all tests -->
+                    <!-- Attach JaCoCo agent to test JVMs -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -109,7 +108,7 @@
                         </goals>
                     </execution>
 
-                    <!-- generate HTML report -->
+                    <!-- Generate coverage reports during verify (HTML, XML, CSV by default) -->
                     <execution>
                         <id>report</id>
                         <phase>verify</phase>
@@ -118,7 +117,7 @@
                         </goals>
                     </execution>
 
-                    <!-- FAIL build if below 50% -->
+                    <!-- Enforce minimum coverage (50%) -->
                     <execution>
                         <id>check</id>
                         <phase>verify</phase>
@@ -133,6 +132,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
+                                            <!-- 50% minimum -->
                                             <minimum>0.20</minimum>
                                         </limit>
                                     </limits>

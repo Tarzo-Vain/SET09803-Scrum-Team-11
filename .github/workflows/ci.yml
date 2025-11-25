@@ -93,9 +93,10 @@ jobs:
           min-coverage-changed-files: 0
 
       - name: Generate coverage badge
+        if: always()
         uses: cicirello/jacoco-badge-generator@v2
         with:
-          jacoco-report-path: target/site/jacoco/jacoco.xml
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
           badges-directory: .
           coverage-badge-filename: coverage.svg
 
