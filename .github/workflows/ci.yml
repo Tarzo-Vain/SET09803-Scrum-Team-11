@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, develop, feature/* ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -33,9 +37,14 @@ jobs:
       DB_PASS: example
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -46,25 +55,53 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mysql-client
 
-      - name: Wait for MySQL to be ready
+      - name: Wait for MySQL
         run: |
           for i in {1..30}; do
             if mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -pexample --silent; then
               echo "MySQL is up";
               exit 0
             fi
-            echo "Waiting for MySQL..."
+            echo "Waiting..."
             sleep 2
           done
-          echo "MySQL did not start in time"
           exit 1
 
-      - name: Import world.sql
+      - name: Import world data
         run: |
           mysql -h 127.0.0.1 -P 3306 -uroot -pexample world < db/world.sql
 
-      - name: Run Unit Tests only
-        run: mvn -B test
+      - name: Build, Test & Coverage
+        run: mvn -B clean verify
 
-      - name: Run Integration Tests (DB)
-        run: mvn -B -q verify
+      - name: Upload JaCoCo report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+      - name: PR Coverage Comment
+        if: always() && github.event_name == 'pull_request'
+        uses: madrapps/jacoco-report@v1.7.0
+        with:
+          paths: target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'JaCoCo Coverage Report'
+          update-comment: true
+          min-coverage-overall: 0
+          min-coverage-changed-files: 0
+
+      - name: Generate coverage badge
+        if: always()
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
+          badges-directory: .
+          coverage-badge-filename: coverage.svg
+
+      - name: Commit coverage badge
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update coverage badge"
+          file_pattern: coverage.svg
