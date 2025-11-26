@@ -144,7 +144,7 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 13. Cities in a continent
+    // 13. Top N Populated cities in a continent
     public List<City> getAllTopNCitiesByContinent(String continent,int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
@@ -166,7 +166,7 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 14. Cities in a region
+    // 14. Top N Populated cities in a region
     public List<City> getAllTopNCitiesByRegion(String region, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
@@ -188,7 +188,7 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 15. Cities in a Country
+    // 15. Top N Populated cities in a Country
     public List<City> getAllTopNCitiesByCountry(String country, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region
@@ -210,7 +210,7 @@ public record CityDAO(Connection con) {
         return list;
     }
 
-    // 16. Cities in a district
+    // 16. Top N Populated cities in a district
     public List<City> getAllTopNCitiesByDistrict(String district, int n) throws SQLException {
         String sql = """
                 SELECT ci.ID, ci.Name, ci.District, ci.Population, co.Code, co.Name AS Country, co.Continent, co.Region

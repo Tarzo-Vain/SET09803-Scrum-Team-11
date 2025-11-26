@@ -14,10 +14,9 @@ public class City {
     public City() {}
 
 
-public City(int id, String name,String continent , String region ,String country , String countryCode, String district, long population) {
+public City(int id, String name, String region ,String country , String countryCode, String district, long population) {
     this.id = id;
     this.name = name;
-   // this.continent = continent;
     this.region = region;
     this.country = country;
     this.countryCode = countryCode;
@@ -26,8 +25,6 @@ public City(int id, String name,String continent , String region ,String country
 
 }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -35,14 +32,10 @@ public City(int id, String name,String continent , String region ,String country
     public String getContinent() { return continent; }
     public void setContinent(String continent) { this.continent = continent; }
 
-    public String getRegion() { return region; }
-    public void setRegion(String region) { this.region = region; }
 
     public String getCountry() { return country; }
     public void setCountry(String country) { this.country = country; }
 
-    public String getCountryCode() { return countryCode; }
-    public void setCountryCode(String countryCode) { this.countryCode = countryCode; }
 
     public String getDistrict() { return district; }
     public void setDistrict(String district) { this.district = district; }

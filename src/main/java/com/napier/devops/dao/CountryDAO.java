@@ -62,7 +62,7 @@ public record CountryDAO(Connection con) {
     }
 
 
-    // 1. All countries in the world and #17
+    // 1. All countries in the world
     public List<Country> getAllCountriesByPopulation() throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, co.Population,  ci.Name AS Capital
@@ -449,7 +449,7 @@ public record CountryDAO(Connection con) {
         return list;
     }
 
-    // 5. Top N countries in a continent by population
+    // 5. Top N countries in a Region by population
     public List<Country> getTopNCapitalByRegion(String continent, int n) throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, ci.Population AS Population,  ci.Name AS Capital
@@ -471,7 +471,7 @@ public record CountryDAO(Connection con) {
         return list;
     }
 
-    // 6. Top N countries in a region by population
+    // 6. Top N countries in a Continent by population
     public List<Country> getTopNCapitalByContinent(String region, int n) throws SQLException {
         String sql = """
                 SELECT co.Code, co.Name, co.Continent, co.Region, ci.Population AS Population,  ci.Name AS Capital
